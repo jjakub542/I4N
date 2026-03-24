@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Django local settings
+local_settings.py
+.env
+*.env
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Byte-compiled / optimized / DLL files
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Coverage and testing
+.coverage
+htmlcov/
+pytest_cache/
+
+# Migrations (optional — keep if you want them versioned)
+# **/migrations/
+# !**/migrations/__init__.py
+
+# OS files
+.DS_Store
+Thumbs.db
