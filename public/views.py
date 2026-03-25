@@ -1,7 +1,6 @@
 from django.shortcuts import render
+from verification.models import Statement
 
-def homepage(request):
-    return render(request, "public/homepage.html")
-
-def wypowiedzi(request):
-    return render(request, "public/wypowiedzi.html")
+def home(request):
+    statements = Statement.objects.order_by("-created_at")
+    return render(request, "public/home.html", {"statements": statements})
