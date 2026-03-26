@@ -1,82 +1,134 @@
 {% extends "base.html" %}
 
-{% block title %}Nuclear Fact Check — Verified Statements{% endblock %}
-
 {% block content %}
+<!-- ============================================================
+     FILTER BAR
+     ============================================================ -->
+<section class="filter-bar" aria-label="Panel filtrowania">
+  <div class="filter-bar__inner">
 
-<h1 style="text-align:center; margin-bottom: 1rem;">
-    Latest Verified Nuclear‑Energy Statements
-</h1>
-
-<p style="text-align:center; max-width: 700px; margin: 0 auto 2rem;">
-    Expert‑verified insights on nuclear energy, policy, safety, and technology.
-</p>
-
-<!-- Search bar -->
-<form method="get" action="#" style="max-width: 600px; margin: 0 auto 3rem;">
-    <input
-        type="text"
-        name="q"
-        placeholder="Search statements, topics, or keywords..."
-        style="
-            width: 100%;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-        "
-    >
-</form>
-
-<!-- Statement Grid -->
-<div class="grid grid-3" style="margin-top: 1rem;">
-
-    {% for s in statements %}
-    <div class="card" style="display:flex; flex-direction:column;">
-
-        <!-- Status badge -->
-        <div class="tag tag-{{ s.status }}" style="margin-bottom: 0.5rem;">
-            {{ s.get_status_display }}
+    <div class="filter-bar__dropdowns">
+      <!-- Dropdown: Temat -->
+      <div class="filter-dropdown" data-filter="temat">
+        <button class="filter-dropdown__trigger" aria-expanded="false" aria-controls="filter-panel-temat">
+          Wybierz temat
+          <span class="material-symbols-outlined" aria-hidden="true">add</span>
+        </button>
+        <div class="filter-dropdown__panel" id="filter-panel-temat" aria-hidden="true">
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="bezpieczenstwo"> Bezpieczeństwo
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="koszty"> Koszty budowy
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="odpady"> Odpady jądrowe
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="emisje"> Emisje CO₂
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="czas"> Czas budowy
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="smr"> SMR
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="polska-cee"> Polska CEE
+          </label>
         </div>
+      </div>
 
-        <!-- Title -->
-        <h3 style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
-            {{ s.title }}
-        </h3>
-
-        <!-- Text preview -->
-        <p style="flex-grow:1;">
-            {{ s.text|truncatewords:30 }}
-        </p>
-
-        <!-- Tags -->
-        <div style="margin-top: 0.5rem;">
-            {% for tag in s.tags.all %}
-                <span style="
-                    display:inline-block;
-                    background:#eef1f5;
-                    padding:0.25rem 0.5rem;
-                    border-radius:4px;
-                    font-size:0.75rem;
-                    margin-right:0.3rem;
-                    margin-bottom:0.3rem;
-                ">
-                    {{ tag.name }}
-                </span>
-            {% endfor %}
+      <!-- Dropdown: Ocena -->
+      <div class="filter-dropdown" data-filter="ocena">
+        <button class="filter-dropdown__trigger" aria-expanded="false" aria-controls="filter-panel-ocena">
+          Ocena wypowiedzi
+          <span class="material-symbols-outlined" aria-hidden="true">add</span>
+        </button>
+        <div class="filter-dropdown__panel" id="filter-panel-ocena" aria-hidden="true">
+          <label class="filter-dropdown__option filter-dropdown__option--true">
+            <input type="checkbox" value="prawda">
+            <span class="filter-dropdown__dot filter-dropdown__dot--true"></span>
+            Prawda
+          </label>
+          <label class="filter-dropdown__option filter-dropdown__option--false">
+            <input type="checkbox" value="falsz">
+            <span class="filter-dropdown__dot filter-dropdown__dot--false"></span>
+            Fałsz
+          </label>
+          <label class="filter-dropdown__option filter-dropdown__option--manipul">
+            <input type="checkbox" value="manipulacja">
+            <span class="filter-dropdown__dot filter-dropdown__dot--manipul"></span>
+            Manipulacja
+          </label>
+          <label class="filter-dropdown__option filter-dropdown__option--unclear">
+            <input type="checkbox" value="nierozstrzygniete">
+            <span class="filter-dropdown__dot filter-dropdown__dot--unclear"></span>
+            Nierozstrzygnięte
+          </label>
         </div>
+      </div>
 
-        <!-- Footer -->
-        <div style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.7;">
-            <div>Author: {{ s.author }}</div>
-            <div>Updated: {{ s.updated_at|date:"Y-m-d" }}</div>
+      <!-- Dropdown: Okres -->
+      <div class="filter-dropdown" data-filter="okres">
+        <button class="filter-dropdown__trigger" aria-expanded="false" aria-controls="filter-panel-okres">
+          Okres
+          <span class="material-symbols-outlined" aria-hidden="true">add</span>
+        </button>
+        <div class="filter-dropdown__panel" id="filter-panel-okres" aria-hidden="true">
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="miesiac"> Ten miesiąc
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="2025-2026"> 2025–2026
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="2022-2024"> 2022–2024
+          </label>
+          <label class="filter-dropdown__option">
+            <input type="checkbox" value="przed-2022"> Przed 2022
+          </label>
         </div>
-
+      </div>
     </div>
-    {% empty %}
-        <p>No statements available.</p>
-    {% endfor %}
 
-</div>
+    <!-- Sort -->
+    <button class="filter-bar__sort" aria-label="Sortowanie wyników">
+      Sortuj
+      <span class="material-symbols-outlined" aria-hidden="true">swap_vert</span>
+    </button>
 
-{% endblock %}
+  </div>
+
+  <!-- Results count -->
+  <div class="filter-bar__results">
+    <p class="filter-bar__count" aria-live="polite" aria-atomic="true">
+      Wyświetlanie <strong id="results-num">1 204</strong> wyników
+    </p>
+    <button class="filter-bar__clear" id="clear-filters" aria-label="Wyczyść wszystkie filtry">Wyczyść filtry</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     MAIN CONTENT — CARDS
+     ============================================================ -->
+<main class="content" id="main-content">
+
+  <div class="cards-grid" role="list" aria-label="Lista zweryfikowanych wypowiedzi">
+
+  {% for statement in statements %}
+    {% include "public/components/statement_card.html" with statement=statement %}
+  {% empty %}
+    <p>Brak dostępnych wypowiedzi.</p>
+  {% endfor %}
+
+  </div>
+
+  <!-- Load More -->
+  <div class="load-more">
+    <button class="load-more__btn" id="load-more-btn" aria-label="Załaduj więcej wyników">
+      Załaduj więcej wyników (1 198 pozostałych)
+    </button>
+  </div>
+</main>
+{% endblock content %}

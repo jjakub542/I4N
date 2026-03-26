@@ -1,0 +1,55 @@
+<article class="card" role="listitem" tabindex="0">
+  <div class="card__image" aria-hidden="true">
+    <div class="card__avatar-placeholder"
+         style="background: linear-gradient(135deg, #1a3a5c, #2e7d32);">
+      <span>{{ statement.author_initials }}</span>
+    </div>
+  </div>
+
+  <div class="card__content">
+
+    <!-- Top section: verdict + meta -->
+    <div class="card__top">
+      <span class="verdict-badge verdict-badge--{{ statement.status }}">
+        <span class="verdict-badge__dot"></span>
+        {{ statement.get_status_display }}
+      </span>
+
+      <div class="card__meta">
+        <time class="card__date" datetime="{{ statement.created_at|date:'Y-m-d' }}">
+          {{ statement.created_at|date:"d.m.Y" }}
+        </time>
+        <span class="card__separator" aria-hidden="true">&bull;</span>
+        <span class="card__read-time">
+          {{ statement.read_time_minutes }} min czytania
+        </span>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h2 class="card__title">{{ statement.title }}</h2>
+
+    <!-- Quote -->
+    <blockquote class="card__quote">
+      {{ statement.quote }}
+    </blockquote>
+
+    <!-- Bottom section: author + tags -->
+    <div class="card__bottom">
+      <div class="card__author">
+        <span class="card__author-name">{{ statement.author_name }}</span>
+        {% if statement.author_role %}
+          <span class="card__separator" aria-hidden="true">&bull;</span>
+          <span class="card__author-role">{{ statement.author_role }}</span>
+        {% endif %}
+      </div>
+
+      <div class="card__tags">
+        {% for tag in statement.tags.all %}
+          <span class="card__tag">{{ tag.name }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</article>
